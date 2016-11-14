@@ -82,7 +82,7 @@ module.exports = {
         }),
         new HtmlwebpackPlugin({
             title: 'QianKun Blog Demo',
-            template: path.resolve(TEM_PATH, 'index.html'),
+            template:  './index.html',
             filename: 'index.html',
             //chunks这个参数告诉插件要引用entry里面的哪几个入口
             chunks: ['app', 'vendors'],
@@ -100,3 +100,64 @@ module.exports = {
         }
     }
 };
+
+module.exports = {
+    devtool: '#source-map',
+    entry: {
+        app: './src/client-entry.js',
+        vendor: ['vue', 'vue-router', 'vuex', 'firebase', 'lru-cache', 'es6-promise']
+    },
+    output: {
+        path: path.resolve(__dirname, '../dist'),
+        publicPath: '/dist/',
+        filename: 'client-bundle.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue',
+                options: vueConfig
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                loader: 'url',
+                options: {
+                    limit: 10000,
+                    name: '[name].[ext]?[hash]'
+                }
+            }
+        ]
+    }
+}
+if (process.env.NODE_ENV === 'production') {
+    module.exports.devtool = '#source-map'
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        // strip comments in Vue code
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        }),
+        // extract vendor chunks for better caching
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            filename: 'client-vendor.js',
+            minChunks: Infinity
+        })
+    ])
+}
