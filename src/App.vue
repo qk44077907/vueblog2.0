@@ -14,7 +14,6 @@
         </content>
         <foot></foot>
     </main>
-
 </template>
 
 <script>
@@ -146,10 +145,10 @@
             }
         },
         components: {
-            'blog-nav': blogNav,
-            'profile': profile,
-            'content': content,
-            'foot': foot
+            blogNav,
+            profile,
+            content,
+            foot
         }
     };
 </script>
