@@ -1,7 +1,7 @@
 <template>
     <div id="blog-nav">
         <div class="meta">
-            <a class="title" v-link="{ path: '/' }">
+            <a class="title" :to="{ path: '/' }">
                 {{title}}
             </a>
             <p class="subtitle">
@@ -11,51 +11,46 @@
         <div class="nav">
             <ul id="menu" class="menu">
                 <li class="menu-item"
-                    :class="{ 'active': isHome}"
-                    @click="blur">
-                    <a v-link="'/'" rel="section">
+                    :class="{ 'active': $route.name=='preview'}">
+                    <router-link :to="'/'" rel="section">
                         <i class="fa fa-home fa-fw"></i>
                         首页
-                    </a>
+                    </router-link>
                 </li>
                 <li class="menu-item"
-                    :class="{ 'active': $route.path=='/archive'}"
-                    @click="blur">
-                    <a v-link="{ name: 'archive',params:{count:1}}" rel="section">
+                    :class="{ 'active': $route.name=='archive'}">
+                    <router-link :to="{ name: 'archive',params:{count:1}}" rel="section">
                         <i class="fa fa-archive fa-fw"></i>
-                        文章列表
-                    </a>
+                        归档
+                    </router-link>
                 </li>
                 <li class="menu-item"
-                    :class="{ 'active': $route.path=='/cate'}"
-                    @click="blur">
-                    <a  v-link="{ name: 'cate'}" rel="section">
+                    :class="{ 'active': $route.name=='cates'}">
+                    <router-link  :to="{ name: 'cates'}" rel="section">
                         <i class="fa fa-th fa-fw"></i>
                         分类
-                    </a>
+                    </router-link>
                 </li>
                 <li class="menu-item"
-                    :class="{ 'active': $route.path=='/tag'}"
-                    @click="blur">
-                    <a v-link="{ name: 'tag'}" rel="section"><i class="fa fa-tags fa-fw"></i>
+                    :class="{ 'active': $route.name=='tags'}">
+                    <router-link :to="{ name: 'tags'}" rel="section"><i class="fa fa-tags fa-fw"></i>
                         标签
-                    </a>
+                    </router-link>
                 </li>
                 <li class="menu-item"
-                    :class="{ 'active': $route.path=='/about'}"
-                    @click="blur">
-                    <a v-link="{ name: 'about'}" rel="section">
+                    :class="{ 'active': $route.name=='about'}">
+                    <router-link :to="{ name: 'about'}" rel="section">
                         <i class="fa fa-user fa-fw"></i>
                         关于
-                    </a>
+                    </router-link>
                 </li>
                 <li class="menu-item menu-item-search"
                     @click="focus">
-                    <a v-link="{ name: 'search',params:{count:1}}" class="st-search-show-outputs">
+                    <router-link :to="{ name: 'search',params:{searchtext:'1',page:1}}" class="st-search-show-outputs">
                         <i class="fa fa-search fa-fw"></i>
                         搜索
-                        <input v-model="searchText" id="searchInput">
-                    </a>
+                        <input @keyup.enter="search" v-model="searchText" id="searchInput">
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -67,26 +62,24 @@
         data: function () {
             return {
                 title: '钱堃的博客demo',
-                subtitle:'此处应该有一段文艺的签名 (｀･ω･´)'
+                subtitle:'此处应该有一段文艺的签名 (｀･ω･´)',
+                searchText:''
             }
         },
-        props:['searchText'],
         computed:{
-            isHome:function () {
-                var isPage=this.$route.path.indexOf('/page')>=0;
-                return (this.$route.path=='/')||isPage;
-            }
         },
         methods: {
-            focus: function () {
+            focus() {
                 var input=document.querySelector("#searchInput");
                 input.className='focus';
                 input.focus();
             },
-            blur:function () {
+            blur() {
                 var input=document.querySelector("#searchInput");
                 input.className='';
                 input.value='';
+            },
+            search () {
             }
         }
     }
@@ -146,6 +139,7 @@
                         margin-right: 6px;
                     }
                     &:hover{
+                        color: #222;
                         background: #f9f9f9;
                         border-bottom-color: #fff;
                     }
@@ -174,7 +168,6 @@
                         width: 65%;
                     }
                 }
-
             }
         }
     }

@@ -22,22 +22,22 @@
         <nav class="pagination">
             <a class="extend prev"
                rel="prev"
-               v-link="{ name: 'archive', params: { count: pageCount-1 }}"
+               :to="{ name: 'archive', params: { count: pageCount-1 }}"
                v-show="pageCount!=1"
                @click="scrollTop">
                 <i class="fa fa-angle-left"></i>
             </a>
             <a class="page-number"
-               v-for="n in totalPage"
-               v-link="{ name: 'archive', params: { count: n+1 }}"
+               v-for="n in pages"
+               :to="{ name: 'archive', params: { count: n+1 }}"
                @click="scrollTop"
                :class="{ 'current': n+1==pageCount}">
                 {{n+1}}
             </a>
             <a class="extend next"
                rel="next"
-               v-link="{ name: 'archive', params: { count: pageCount+1 }}"
-               v-show="pageCount!=totalPage"
+               :to="{ name: 'archive', params: { count: pageCount+1 }}"
+               v-show="pageCount!=pages"
                @click="scrollTop">
                 <i class="fa fa-angle-right"></i>
             </a>
@@ -54,7 +54,7 @@
         },
         props: ['totalArticles'],
         computed: {
-            totalPage: function () {
+            pages: function () {
                 return Math.ceil(this.totalArticles.length / 10)
             },
             articles: function () {

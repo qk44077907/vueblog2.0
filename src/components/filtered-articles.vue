@@ -36,7 +36,7 @@
                 <i class="fa fa-angle-left"></i>
             </a>
             <a class="page-number"
-               v-for="n in totalPage"
+               v-for="n in pages"
                v-link="{name: $route.params.filterField?'filtered':'search', params: { count: n+1 }}"
                @click="scrollTop"
                :class="{ 'current': n+1==pageCount}">
@@ -45,7 +45,7 @@
             <a class="extend next"
                rel="next"
                v-link="{ name: $route.params.filterField?'filtered':'search',params: { count: pageCount+1 }}"
-               v-show="totalPage&&pageCount!=totalPage"
+               v-show="pages&&pageCount!=pages"
                @click="scrollTop">
                 <i class="fa fa-angle-right"></i>
             </a>
@@ -81,8 +81,8 @@
                 }
                 return this.$eval('totalArticles | filterBy $route.params.filterName in $route.params.filterField');
             },
-            totalPage: function () {
-                var totalPage = Math.ceil(this.filteredArticles.length / 4);
+            pages: function () {
+                var pages = Math.ceil(this.filteredArticles.length / 4);
                 return totalPage
             },
             articles: function () {

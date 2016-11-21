@@ -5,6 +5,7 @@
 var webpack=require('webpack');
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var ROOT_PATH = path.resolve(__dirname);
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
             // 解析.vue文件
             {
                 test: /\.vue$/,
-                loader: 'vue',
+                loader: 'vue-loader',
                 options:{
                     postcss: [
                         require('autoprefixer')({
@@ -41,16 +42,16 @@ module.exports = {
             // 转化ES6的语法
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 exclude: /node_modules/
                 /*query: {
-                    presets: ['es2015'],
-                    plugins: ['transform-runtime']
+                    presets: ['es2015',"stage-3"],
+                    plugins: ['transform-runtime',"transform-es2015-destructuring", "transform-object-rest-spread"]
                 }*/
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
-                loader: 'url',
+                loader: 'url-loader',
                 options: {
                     limit: 10000,
                     name: '[name].[ext]?[hash]'
@@ -58,23 +59,23 @@ module.exports = {
             },
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
+                loader: "url-loader?limit=10000&mimetype=application/font-woff"
             },
             {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
+                loader: "url-loader?limit=10000&mimetype=application/font-woff"
             },
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/octet-stream"
+                loader: "url-loader?limit=10000&mimetype=application/octet-stream"
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
+                loader: "file-loader"
             },
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=image/svg+xml"
+                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
             },
         ]
     },
@@ -113,12 +114,21 @@ module.exports = {
             inject: 'body'
         })
     ],
+    //vue默认到处运行时构建，将vue转换为独立构建
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue'
+        }
+    },
     devtool: '#eval-source-map'
 };
 if (process.env.NODE_ENV === 'production') {
     module.exports.devtool = '#source-map'
     // http://vue-loader.vuejs.org/en/workflow/production.html
     module.exports.plugins = (module.exports.plugins || []).concat([
+        new CleanWebpackPlugin(['dist'], {
+            root: 'C:/AmateurProject/blog/'
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'

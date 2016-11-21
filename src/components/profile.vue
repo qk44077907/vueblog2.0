@@ -7,22 +7,22 @@
         </div>
         <div class="state">
             <div class="state-item">
-                <a v-link="{ name: 'archive',params:{count:1}}">
+                <router-link :to="{ name: 'archive',params:{count:1}}">
                     <span class="state-num">{{articleNum}}</span>
                     <span class="state-name">日志</span>
-                </a>
+                </router-link>
             </div>
             <div class="state-item">
-                <a v-link="{ name: 'cate'}">
+                <router-link :to="{ name: 'cates'}">
                     <span class="state-num">{{cateNum}}</span>
                     <span class="state-name">分类</span>
-                </a>
+                </router-link>
             </div>
             <div class="state-item">
-                <a v-link="{ name: 'tag'}">
+                <router-link :to="{ name: 'tags'}">
                     <span class="state-num">{{tagNum}}</span>
                     <span class="state-name">标签</span>
-                </a>
+                </router-link>
             </div>
         </div>
         <div class="link">
@@ -37,22 +37,38 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     export default {
-        data: function () {
+        data () {
             return {
                 name: 'Faith',
                 sign: 'think more,talk more'
             }
         },
-        props: ['articleNum', 'articleTag', 'articleCate'],
+
         computed: {
-            tagNum: function () {
-                return Object.keys(this.articleTag).length;
+            tagNum() {
+                return Object.keys(this.$store.state.tags).length
             },
-            cateNum: function () {
-                return Object.keys(this.articleCate).length;
+            cateNum() {
+                return Object.keys(this.$store.state.cates).length;
+            },
+            articleNum() {
+                return this.$store.state.totalNum;
             }
-        }
+        },
+        beforeMount(){
+            this.getTag();
+            this.getNum();
+            this.getCate();
+        },
+        methods: {
+            ...mapActions([
+                'getTag',
+                'getCate',
+                'getNum'
+            ]),
+        },
     }
 </script>
 
@@ -122,7 +138,7 @@
                 margin-right: 0;
                 padding: 0 5px;
                 text-decoration: none;
-                &:hover{
+                &:hover {
                     background-color: #EEEEEE;
                     border-radius: 4px;
                 }

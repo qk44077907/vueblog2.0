@@ -1,23 +1,28 @@
 <template>
     <div id="content-tag">
-        <a v-for="(key, val) in articleTag"
-           v-link="{ name: 'filtered', params: { filterField: 'tag',filterName:key,count:1 }}"
+        <router-link v-for="(val, key) in tags"
+           :to="{ name: 'filtered', params: { filterField: 'tag',filterName:key,count:1 }}"
            class="tags"
            :class="{ 'large': val>5}">
             {{key}}
-        </a>
+        </router-link>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['articleTag']
+        computed:{
+            tags(){
+                return this.$store.state.tags
+            }
+        }
     }
 </script>
 
 <style lang=less rel="stylesheet/less">
     #content-tag {
         text-align: center;
+        position: relative;
         .tags {
             display: inline-block;
             margin: 10px;
