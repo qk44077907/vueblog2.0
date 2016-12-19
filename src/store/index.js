@@ -3,7 +3,7 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {fetchPageData, getCate, getTag, getNum} from './api'
+import {fetchPreview, getCate, getTag, getNum} from './api'
 
 Vue.use(Vuex)
 
@@ -17,10 +17,12 @@ const store = new Vuex.Store({
     },
 
     actions: {
-        // ensure data for rendering given list type
-        fetchPageData: ({commit}) => {
-            fetchPageData(pageidx)
-                .then(articles => commit('SET_LIST', articles))
+        fetchPreview: (page,success,fail) => {
+            fetchPreview(pageidx)
+                .then(
+                    data => {commit('SET_LIST', data);success();},
+                    error=>{fail(error)}
+                )
         },
         getCate: ({commit})=> {
             getCate()
@@ -37,8 +39,12 @@ const store = new Vuex.Store({
     },
 
     mutations: {
-        SET_LIST: (state, articles) => {
-            state.articles = articles
+        SET_LIST: (state, data) => {
+            state.articles = data.articles;
+            state.tags=data.tags;
+            state.cates=data.cates;
+            state.totalNum=data.totalNum;
+            state.pages=data.pages
         },
         SET_CATE: (state, cates) => {
             state.cates = cates

@@ -46,7 +46,7 @@
                 </li>
                 <li class="menu-item menu-item-search"
                     @click="focus">
-                    <router-link :to="{ name: 'search',params:{searchtext:'1',page:1}}" class="st-search-show-outputs">
+                    <router-link :to="{ name: 'search',params:{searchText:'1',page:1}}" class="st-search-show-outputs">
                         <i class="fa fa-search fa-fw"></i>
                         搜索
                         <input @keyup.enter="search" v-model="searchText" id="searchInput">

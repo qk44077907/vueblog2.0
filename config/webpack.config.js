@@ -6,7 +6,6 @@ var webpack=require('webpack');
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-var ROOT_PATH = path.resolve(__dirname);
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
     // 入口文件地址，不需要写完，会自动查找
@@ -17,7 +16,7 @@ module.exports = {
     // 输出
     output: {
         path: path.resolve(__dirname, '../dist'),
-        publicPath: '/dist/',
+        //publicPath: '/dist/',
         filename: 'app.js'
     },
     // 加载器
@@ -106,7 +105,7 @@ module.exports = {
         }),
         new HtmlwebpackPlugin({
             title: 'QianKun Blog Demo',
-            template:  './index.html',
+            template:  './src/index.html',
             filename: 'index.html',
             //chunks这个参数告诉插件要引用entry里面的哪几个入口
             chunks: ['app', 'vendor'],
@@ -130,9 +129,7 @@ if (process.env.NODE_ENV === 'production') {
             root: 'C:/AmateurProject/blog/'
         }),
         new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
+            'process.env.NODE_ENV': '"production"'
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {

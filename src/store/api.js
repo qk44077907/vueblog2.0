@@ -1,6 +1,7 @@
 /**
  * Created by qiankn on 2016/11/16.
  */
+import axios from 'axios'
 import data from './mockData'
 //返回某个标签的种类及数量，形式为对象
 function filterAttr(name) {
@@ -16,18 +17,8 @@ function filterAttr(name) {
     }
     return temp;
 }
-export function fetchPageData(pageidx, {tag, cate, any, all}) {
-    if (all) {
-        return new Promise((resolve, reject) => {
-            setTimeout(()=> {
-                var pageData = []
-                for (var i = 0; i++; i < 4) {
-                    pageData.push(Object.assign({}, data[(pageidx - 1) * 4 + i]))
-                }
-                resolve(pageData)
-            }, Math.random() * 1000)
-        })
-    }
+export function fetchPreview(pageidx) {
+    return axios.get(`http://192.168.1.71:8081/api/preview/${pageidx}`)
 }
 export function getCate() {
     return new Promise((resolve, reject)=> {

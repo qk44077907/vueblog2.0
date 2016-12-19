@@ -2,7 +2,7 @@
     <div>
         <div class="headband"></div>
         <main id="app">
-            <blog-nav></blog-nav>
+            <blogNav></blogNav>
             <profile>
             </profile>
             <div id="content">
@@ -22,7 +22,7 @@
     import foot from './components/foot.vue';
 
     export default{
-        data: function () {
+        data() {
             return {
                 totalArticles: [],
                 searchText: ''
@@ -33,7 +33,7 @@
             ...mapActions([
                 'getTag',
                 'getCate',
-                'fetchPageData'
+                'fetchPreview'
             ]),
         },
         components: {

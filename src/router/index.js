@@ -27,12 +27,12 @@ Vue.use(VueRouter);
 const routes = [
     {path: '/',  redirect: '/preview/1'},
     {path: '/preview/:page(\\d+)', name: 'preview', component: preview},
-    {path: '/list/:page(\\d+)', name: 'list', component: preview},
+    {path: '/list/:page(\\d+)', name: 'list', component: preview},//文章时间线
     {path: '/cates', name: 'cates', component: cates},
-    {path: '/cates/:catename/:page(\\d+)', name: 'sortByCate', component: preview},
+    {path: '/cates/:cateName/:page(\\d+)', name: 'sortByCate', component: preview},
     {path: '/tags', name: 'tags', component: tags},
-    {path: '/tags/:tagname/:page(\\d+)', name: 'sortByTag', component: preview},
-    {path: '/search/:searchtext/:page(\\d+)', name: 'search', component: preview},
+    {path: '/tags/:tagName/:page(\\d+)', name: 'sortByTag', component: preview},
+    {path: '/search/:searchText/:page(\\d+)', name: 'search', component: preview},
     {path: '/about', name: 'about', component: about},
     { path: '*', redirect: '/' }
 ]
@@ -46,3 +46,5 @@ export default new VueRouter({
         return { x: 0, y: 0 }
     }
 })
+
+
